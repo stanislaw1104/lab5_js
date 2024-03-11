@@ -1,0 +1,50 @@
+<html>
+<head>
+<title>Counter</title>
+<style>
+    #counter-container {
+        text-align: center;
+        margin-top: 50px;
+    }
+    button {
+        font-size: 20px;
+        margin: 0 10px;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+
+<div id="counter-container">
+    <button id="decrease-btn">-</button>
+    <span id="counter-value">0</span>
+    <button id="increase-btn">+</button>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const decreaseBtn = document.getElementById("decrease-btn");
+        const increaseBtn = document.getElementById("increase-btn");
+        const counterValue = document.getElementById("counter-value");
+
+        let value = 0;
+
+        decreaseBtn.addEventListener("click", function() {
+            value--;
+            updateCounter();
+        });
+
+        increaseBtn.addEventListener("click", function() {
+            value++;
+            updateCounter();
+        });
+
+        function updateCounter() {
+            counterValue.textContent = value;
+        }
+    });
+</script>
+
+</body>
+</html>

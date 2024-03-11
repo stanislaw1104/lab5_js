@@ -1,0 +1,153 @@
+Задача1.1
+function counter(n) {
+    const intervalId = setInterval(() => {
+        console.log(n);
+        n--;
+        if (n < 0) {
+            clearInterval(intervalId);
+        }
+    }, 1000);
+}
+
+counter(5);
+Задача1.2
+function createCounter(n) {
+    let currentNumber = n;
+    let intervalId = null;
+
+    function start() {
+        if (!intervalId) {
+            intervalId = setInterval(() => {
+                console.log(currentNumber);
+                currentNumber--;
+                if (currentNumber < 0) {
+                    clearInterval(intervalId);
+                }
+            }, 1000);
+        }
+    }
+
+    function pause() {
+        clearInterval(intervalId);
+        intervalId = null;
+    }
+
+    function stop() {
+        clearInterval(intervalId);
+        intervalId = null;
+        currentNumber = n;
+    }
+
+    return {
+        start,
+        pause,
+        stop
+    };
+}
+
+const counter = createCounter(5);
+
+counter.start();
+setTimeout(() => counter.pause(), 3000);
+setTimeout(() => counter.stop(), 5000);
+
+Задача2.1
+function delay(N) {
+    return new Promise(resolve => {
+        setTimeout(resolve, N * 1000);
+    });
+}
+
+
+delay(3).then(() => {
+    console.log('Прошло 3 секунды!');
+});
+
+
+Задача2.2
+function countDown(N) {
+    return new Promise(resolve => {
+        function runCounter(n) {
+            console.log(n);
+            if (n === 0) {
+                resolve();
+            } else {
+                delay(1).then(() => runCounter(n - 1));
+            }
+        }
+
+        runCounter(N);
+    });
+}
+
+function delay(seconds) {
+    return new Promise(resolve => {
+        setTimeout(resolve, seconds * 1000);
+    });
+}
+
+countDown(5).then(() => {
+    console.log('Счетчик завершен!');
+});
+
+Задача2.3
+async function getFirstRepository(username) {
+    try {
+        const response = await fetch(`https://api.github.com/users/${username}`);
+        const userData = await response.json();
+        const repositoriesResponse = await fetch(userData.repos_url);
+        const repositoriesData = await repositoriesResponse.json();
+        
+        if (repositoriesData.length > 0) {
+            return repositoriesData[0].name;
+        } else {
+            throw new Error("Пользователь не имеет репозиториев на GitHub");
+        }
+    } catch (error) {
+        console.error("Ошибка:", error.message);
+    }
+}
+
+getFirstRepository("stanislaw1104").then(repoName => {
+    console.log("Название первого репозитория:", repoName);
+});
+
+Задача3
+class HttpError extends Error {
+  constructor(response) {
+    super(`${response.status} for ${response.url}`);
+    this.name = 'HttpError';
+    this.response = response;
+  }
+}
+
+async function loadJson(url) {
+  const response = await fetch(url);
+  if (response.status === 200) {
+    return response.json();
+  } else {
+    throw new HttpError(response);
+  }
+}
+
+async function getGithubUser() {
+  let user;
+  while (!user) {
+    let name = prompt("Введите логин?", "iliakan");
+
+    try {
+      user = await loadJson(`https://api.github.com/users/${name}`);
+      alert(`Полное имя: ${user.name}.`);
+    } catch (err) {
+      if (err instanceof HttpError && err.response.status === 404) {
+        alert("Такого пользователя не существует, пожалуйста, повторите ввод.");
+      } else {
+        throw err;
+      }
+    }
+  }
+  return user;
+}
+
+getGithubUser();
+

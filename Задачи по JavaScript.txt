@@ -1,0 +1,103 @@
+Задача1
+const arr = [1, 6, -1, 22, 13];
+
+const max = Math.max(...arr);
+const min = Math.min(...arr);
+
+console.log("Максимум:", max);
+console.log("Минимум:", min);
+
+Задача2.1
+const str = "!тевирП";
+const reversedStr = str.split("").reverse().join("");
+
+console.log(reversedStr);
+
+Задача2.2
+async function reverseString() {
+    const str = prompt("Введите строку:");
+    const reversedStr = str.split("").reverse().join("");
+    return reversedStr;
+}
+
+reverseString().then(reversed => {
+    console.log("Перевернутая строка:", reversed);
+});
+
+Задача3
+const arr = [3, 5, 8, 13, 21, 42];
+
+const sumOfSqrtEvenNumbers = arr.reduce((acc, num) => {
+    if (num % 2 === 0) {
+        acc += Math.sqrt(num);
+    }
+    return acc;
+}, 0);
+
+console.log("Сумма квадратных корней для всех чётных чисел:", sumOfSqrtEvenNumbers);
+
+Задача4
+function normalizeString(str) {
+    return str.toLowerCase().replace(/[^а-я]/g, "").split("").sort().join("");
+}
+
+function anagram(str1, str2) {
+    return normalizeString(str1) === normalizeString(str2);
+}
+
+console.log(anagram("Лунь", "нуль")); // true
+console.log(anagram("Лунь", "ноль")); // false
+
+Задача5
+function isPalindrome(str) {
+    const normalizedStr = str.toLowerCase().replace(/[^а-я]/g, "");
+    const reversedStr = normalizedStr.split("").reverse().join("");
+    return normalizedStr === reversedStr;
+}
+
+console.log(isPalindrome("Не гни папин ген")); // true
+console.log(isPalindrome("123")); // false
+
+Задача6
+function printFibonacciNumbers() {
+    let prev = 0;
+    let curr = 1;
+
+    function fibonacci() {
+        console.log(prev);
+        const next = prev + curr;
+        prev = curr;
+        curr = next;
+    }
+
+    setInterval(fibonacci, 1000);
+}
+
+printFibonacciNumbers();
+
+Задача7
+function intersect(arrA, arrB) {
+    return arrA.filter(value => arrB.includes(value));
+}
+
+
+const arrA = [1, 2, 3, 4, 5];
+const arrB = [4, 5, 6, 7, 8];
+console.log(intersect(arrA, arrB)); 
+
+Задача8
+Отдельный html файл
+
+Задача9
+Этот код выведет три раза число 4
+
+for (let i = 1; i <= 3; i++) {
+    setTimeout((function (x) {
+        return function () {
+            console.log(x);
+        };
+    })(i), 1000 * i);
+}
+
+
+
